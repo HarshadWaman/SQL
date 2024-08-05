@@ -1,5 +1,14 @@
-//consider the following Entities andtheir Rlarionshipe for Bus Transport databade.
-//
+/*
+consider the following Entities andtheir Rlarionshipe for Bus Transport databade.
+Bus(bus_no int ,b_capacity int,deport_name varchar(20))
+Route(route_no int,source char(20),destination char(20),no_of_stations int)
+Driver(driver_no int,driver_name char(20),license_no int,address char(20),d_age int,salary float)
+Relationship between Bus ans route is many to one and relationship between bus and driver is many with descriptive attributes
+date_of_duty_allotted and shift.
+constriant:primary key,license_no is unique,b_capacity should not benull,shift can be 1(Morning) pr 2(Evening).
+create view for dispaly details of all the drivers having age more than 24.
+*/
+ 
 
 create database Bus_t;
 
