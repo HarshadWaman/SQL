@@ -1,3 +1,4 @@
+/*
 Consider the following Entities and their Relationships for Person-Area database.
 
 Person (pno integer, pname varchar (20), birthdate date, income money)
