@@ -1,4 +1,29 @@
-/*
+Consider the following Entities and their Relationships for Person-Area database.
+
+Person (pno integer, pname varchar (20), birthdate date, income money)
+
+Area (aname varchar (20), area_type varchar (5))
+
+An area can have one or more persons living in it, but a person belongs to exactly one area. Constraints: Primary Key, area_type can be either "urban” or "rural".
+
+Create view for display all person names which contain word like "Tupe" in name living in Hadapsar area.Person-Area database.
+
+Person (pno integer, pname varchar (20), birthdate date, income money)
+
+Area (aname varchar (20), area_type varchar (5))
+
+An area can have one or more persons living in it, but a person belongs to exactly one area. Constraints: Primary Key, area_type can be either „urban" or ,,rural"
+
+Solve the following Queries in PostgreSQL:
+
+1. List the names of all persons living in "Pune" area.
+
+2. List the details of all people whose names start with the alphabet "D".
+
+3. Count area wise persons whose income is above 100000.
+
+4. List the names of all people w income is between 50000 and 10
+*/
 
 
 create database person_Area;
