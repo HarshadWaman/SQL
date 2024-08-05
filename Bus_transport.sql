@@ -1,5 +1,5 @@
-
-
+//consider the following Entities andtheir Rlarionshipe for Bus Transport databade.
+//
 
 create database Bus_t;
 
