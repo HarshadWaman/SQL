@@ -1,0 +1,47 @@
+/*
+
+
+create database person_Area;
+
+create table Person
+(
+ person_no int primary key,
+ person_name varchar(20),
+ birth_date date,
+ income float,
+ Area_name varchar(20)
+);
+
+create table Area
+(
+ Area_name varchar(20) primary key,
+ Area_type varchar(5) check(Area_type in ('urban','rural'))
+);
+
+insert into person values(111,'Tupe','1978-08-06',100000,'Hadapsar');
+insert into person values(112,'Deshmukha','1970-02-08',90000,'shamnagar');
+insert into person values(113,'Rahane','2001-12-04',50000,'manmad');
+insert into person values(114,'sonavane','2005-11-25',60000,'pune');
+insert into person values(115,'Dhage','2010-09-22',150000,'Nashik');
+
+
+create view p_area as
+select person_name
+from person
+where person_name like '%Tupe%' and Area_name='Hadapsar';
+
+select person_name from person where Area_name='pune';
+
+select * from person where person_name like 'D%';
+
+select Area_name,count(*) from person where income > 100000 group by Area_name;
+
+select person_name from person where income between 50000 and 100000;
+
+
+
+
+
+
+
+
