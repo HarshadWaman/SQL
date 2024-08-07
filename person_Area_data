@@ -44,7 +44,7 @@ create table Area
 );
 
 insert into person values(111,'Tupe','1978-08-06',100000,'Hadapsar');
-insert into person values(112,'Deshmukha','1970-02-08',90000,'shamnagar');
+insert into person values(112,'Deshmukh','1970-02-08',90000,'shamnagar');
 insert into person values(113,'Rahane','2001-12-04',50000,'manmad');
 insert into person values(114,'sonavane','2005-11-25',60000,'pune');
 insert into person values(115,'Dhage','2010-09-22',150000,'Nashik');
