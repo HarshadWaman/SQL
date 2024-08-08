@@ -23,7 +23,7 @@ Solve the following Queries in PostgreSQL:
 
 3. Count area wise persons whose income is above 100000.
 
-4. List the names of all people w income is between 50000 and 100000.
+4. List the names of all people w income is between 50000 and 100000....
 */
 
 create database person_Area;
