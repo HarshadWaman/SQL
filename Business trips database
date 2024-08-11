@@ -1,0 +1,121 @@
+/*
+Business-Trips Database
+
+Consider the following Entities and their Relationships for Business-Trips
+
+database.
+
+Salesman (sno integer, s_name varchar (30), start_year integer)
+
+Trip (tno integer, from_citychar (20), to_citychar (20), departure_date date, return_date date)
+
+Dept(deptno varchar (10), dept_name char (20))
+
+Expense (cid integer, amount money)
+
+Relationship between Dept and Salesman is one to many, Salesman and Trip is one to many. and Trip and Expense is one to one.
+
+Constraints: Primary Key. s_name should not be null.
+
+Create view for the following:
+
+*/
+
+
+create database Business_trips;
+
+create table Dept 
+(
+  dept_no varchar(10) PRIMARY KEY,
+  dept_name char(20)
+);
+
+
+create table Salesman 
+(
+  s_no int primary key,
+  s_name varchar(30) not null,
+  start_year int,
+  dept_no varchar(10),
+  foreign key (dept_no) references Dept(dept_no)
+);
+
+
+create table Trip 
+(
+  t_no int primary key,
+  from_city char(20),
+  to_city char(20),
+  departure_date date,
+  return_date date,
+  s_no int,
+  foreign key (s_no) references Salesman(s_no)
+);
+
+
+create table Expense 
+(
+  c_id int primary key,
+  amount float,
+  t_no int unique,
+  foreign key (t_no) references Trip(t_no)
+);
+
+insert into dept values('102','APK');
+insert into dept values('101','RK');
+
+insert into salesman values(11,'Ram',2020,102);
+insert into salesman values(12,'Sham',2022,101);
+insert into salesman values(13,'Ravi',2021,101);
+
+insert into trip values(21,'snagamner','pune','2023-07-01','2023-07-04',11);
+insert into trip values(24,'snagamner','pune','2023-07-01','2023-07-04',13);
+insert into trip values(22,'pune','nashik','2024-09-02','2023-09-05',12);
+insert into trip values(23,'pune','nashik','2024-09-02','2023-09-05',11);
+
+
+insert into expense values(31,'2000',21);
+insert into expense values(32,'3000',22);
+insert into expense values(33,'3000',23);
+insert into expense values(34,'5000',24);
+
+
+
+/* 
+Find the total expenses incurred by the salesman 'Ram'.
+*/
+
+create view Total_Expenses_Ram as
+select sum(e.amount) as Total_Expenses
+from expense e,trip t,salesman s
+where e.t_no=t.t_no and t.s_no=s.s_no and s.s_name='ram';
+
+
+/*
+Count the number of trips from Pune to nashik of salesman Mr. sham in month nov.
+*/
+
+create view Trips_sham_ as
+select count(t.t_no) as trips
+from trip t,salesman s
+where s.s_name='Ram' and t.from_city='pune'and t.to_city='nashik' and extract(month from t.departure_date)=9;
+
+
+/* 
+List the names of departments that have salesmen, who have done minimum number of trips.
+*/
+
+create view min_trips_dept as
+select d.dept_name
+from dept d,salesman s,trip t
+where  d.dept_no = s.dept_no 
+group by d.dept_name
+having count(t.t_no) = (select min(trip_count)
+  from 
+  (
+    select s.s_no, count(t.t_no) as trip_count
+    from Salesman s , trip t
+    where s.s_no = t.s_no
+    group by s.s_no
+  ) as trip_counts
+);
