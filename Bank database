@@ -1,0 +1,116 @@
+/* 
+Bank Database
+Consider the following Entities and their Relationships for Bank database.
+Branch (br_id integer, br_name char (30), br_city char (10))
+Customer (eno integer, c_name char (20), caddr char (35), city char (20))
+Loan_application(Ino integer, _amt_required money, 1_amt_approved money, I_date date)
+Relationship between Branch, Customer and Loan_application is Ternary.
+Ternary (br_id integer, cno integer, Ino integer)
+Constraints: Primary Key,
+1_amt_required should be greater than zero.
+*/
+
+create database Bank;
+
+create table Branch 
+(
+  branch_id int primary key,
+  branch_name char(30),
+  branch_city char(10)
+);
+
+create table Customer 
+(
+  c_no int primary key,
+  c_name char(20),
+  c_add char(35),
+  city char(20)
+);
+
+create table Loan_application 
+(
+  L_no int primary key,
+  L_amt_required float check (amt_required > 0),
+  L_amt_approved float,
+  L_date date
+);
+
+create table Ternary 
+(
+  branch_id int,
+  c_no int,
+  L_no int,
+  primary key (branch_id, c_no, L_no),
+  foreign key (branch_id) references Branch(branch_id),
+  foreign key (c_no) references  Customer(c_no),
+  foreign key (L_no) references  Loan_application(L_no)
+);
+
+insert into branch values(101,'SBI_BANK','Pune');
+insert into branch values(102,'Union_Bank_of_india','Nashik');
+
+insert into customer values(201,'Ram','shamnager','pune');
+insert into customer values(202,'sham','manmad','Nashik');
+insert into customer values(203,'Ravi','ganeshnager','pune');
+
+insert into loan_application values(301,100000,50000,'2024-05-12');
+insert into loan_application values(302,50000,25000,'2024-09-25');
+insert into loan_application values(303,10000,10000,'2024-11-10');
+insert into loan_application values(304,300000,300000,'2019-06-01');
+
+
+
+insert into ternary values(101,202,302);
+insert into ternary values(102,201,301);
+
+/*
+Display the details of all customera who have recevived lone amount less than their requirement.
+*/
+create view Underfunded_Customers as
+select c_name, c_add, city, L_amt_required, L_amt_approved
+from Customer c
+join ternary t on c.c_no = t.c_no
+join Loan_application  La on t.L_no = La.L_no
+WHERE L_amt_approved < L_amt_required;
+
+/*
+Display sum of loan amount approved branch wise from 1 june 2019 to 1 june 2020.alter
+*/
+create view lone_approvas_by_branch as
+select branch_name,
+sum(L_amt_approved)as total_approved
+from branch b,loan_application la,ternary t
+where b.branch_id=t.branch_id and t.L_no=la.L_no and la.L_date between '2019-06-01' and '2024-11-10';
+
+
+/*
+count branch wise all customers who requires loan amount more than 2 lakhs.
+*/
+create view high_value_costomers_by_branch as
+select b.branch_name,
+count(t.c_no)as customer_count
+from branch b,ternary t,loan_application la
+where b.branch_id=t.branch_id and la.L_amt_approved > 200000;
+
+
+/*
+ Display all customer names branch wise who requested loan amount less than 1 lakh.
+*/
+
+create view low_customers_by_brench as
+select b.branch_name,c.c_name
+from branch b,ternary t,customer c,loan_application la
+where b.branch_id=t.branch_id and t.c_no=c.c_no and t.L_no=la.L_no and la.L_amt_required < 100000;
+
+
+
+
+
+
+
+
+
+
+
+
+
