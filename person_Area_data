@@ -119,7 +119,20 @@ where b.branch_id=t.branch_id and t.c_no=c.c_no and t.L_no=la.L_no and la.L_amt_
 
 
 
+/*funcation for count of total person area*/
 
+delimiter $$
+create function total_person_area(Area_name varchar(20))returns int
+deterministic
+begin
+declare person_count int;
+select count(person_no) into person_count
+from person p
+join area a on p.Area_name=a.Area_name
+where a.Area_name=Area_name;
+return person_count;
+end $$
+delimiter ;
 
 
 
