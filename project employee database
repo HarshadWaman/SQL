@@ -1,4 +1,12 @@
+/*
+Project-Employee Database Consider the following Entities and their Relationships for Project-Employee database.
 
+Project (pno integer, pname char (30), ptype char (20), duration integer) Employee (eno integer, ename char (20), qualification char (15), joining_date date)
+
+Relationship between Project and Employee is many to many with descriptive attribute start_date date, no_of_hours_worked integer.
+
+Constraints: Primary Key, duration should be greater than zero, pname should not be null.
+*/
 
 
 
