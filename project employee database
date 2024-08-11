@@ -1,0 +1,82 @@
+
+
+
+
+create database project_employee;
+
+create table project
+(
+ p_no int primary key,
+ p_name char(30)not null,
+ p_type char(20),
+ duration int check(duration> 0)
+);
+
+create table employee
+(
+ e_no int primary key,
+ e_name char(20),
+ qualification char(20),
+ joining_date date
+);
+
+create table project_employee
+(
+ p_no int ,
+ e_no int ,
+ start_date date,
+ no_of_hours_worked int,
+ primary key(p_no,e_no),
+ foreign key(p_no)references project(p_no),
+ foreign key(e_no)references employee(e_no)
+);
+
+insert into project values(1,'ERP','online',200);
+insert into project values(2,'ASK','offline',100);
+insert into project values(3,'APK','online',1000);
+
+
+insert into employee values(102,'Ram','BCA','2020-01-12');
+insert into employee values(101,'sham','BCS','2021-06-05');
+insert into employee values(103,'Ravi','MCA','2019-03-04');
+
+insert into project_employee values(2,102,'2020-01-12',20);
+insert into project_employee values(1,101,'2021-06-05',50);
+insert into project_employee values(3,103,'2019-07-08',500);
+
+
+/*
+  Display all employees working on "ERP" project.
+*/
+create view ERP_project as
+select e.e_no,e.e_name,e.qualification,e.joining_date
+from employee e,project_employee pe,project p
+where p.p_name='ERP'and e.e_no=pe.e_no and pe.p_no=p.p_no;
+
+
+/*
+	display the projrct details and start date ofthe projrct sort it by start date of 
+    the project where duration of projectis more than 6 months.
+*/
+create view project_duration_more_than_6_months as
+select p.p_no,p.p_name,p.p_type,p.duration,pe.start_date
+from project p,project_employee pe
+where ord(pe.start_date) and p.duration > 183;
+drop view project_duration_more_than_6_months;
+
+/*
+   Display employee detailshaving qualification MCA.
+*/
+create view MCA_employees as
+select e.e_no,e.e_name,e.qualification,e.joining_date
+from employee e
+where qualification='MCA';
+
+/*
+	Display employee and project names where employees workrd than 300 hours.
+*/
+
+create view emp_work_more_than_300_hours as
+select e.e_name,p.p_name
+from employee e,project p,project_employee pe
+where e.e_no=pe.e_no and pe.p_no=p.p_no and pe.no_of_hours_worked > 300;
