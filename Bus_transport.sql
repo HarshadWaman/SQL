@@ -1,5 +1,5 @@
 /*
-consider the following Entities andtheir Rlarionshipe for Bus Transport databade.
+consider the following Entities and their Rlarionshipe for Bus Transport databade.
 Bus(bus_no int ,b_capacity int,deport_name varchar(20))
 Route(route_no int,source char(20),destination char(20),no_of_stations int)
 Driver(driver_no int,driver_name char(20),license_no int,address char(20),d_age int,salary float)
